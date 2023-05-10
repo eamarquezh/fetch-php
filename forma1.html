@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forma 1</title>
+</head>
+<body>
+    <h2>ingresar valor A y valor B</h2>
+    <p>En este ejemplo usaremos un formdata para almacenar 2 variables enviarla a un archivo externo en php donde sumara, restara, multiplicara y dividira los dos valores y los regresara en un formato json llenando 4 div con el resultado correspondiente a cada calculo.</p>
+    <label for="valA">valor A</label>
+    <input type="number" id="valA" value=""><br>
+    <label for="valB">valor B</label>
+    <input type="number" id="valB" value=""><br>
+    <input type="button" id="dato" value="Obtener datos">
+
+    <div id="suma">-</div>
+    <div id="resta">-</div>
+    <div id="multiplicacion">-</div>
+    <div id="division">-</div>
+
+<script>
+const valA = document.getElementById('valA');
+const valB = document.getElementById('valB');
+const dato = document.getElementById('dato');
+
+const suma = document.getElementById('suma');
+const resta = document.getElementById('resta');
+const multiplicacion = document.getElementById('multiplicacion');
+const division = document.getElementById('division');
+
+
+dato.addEventListener('click',envio)
+
+
+
+    async function envio(){
+        let myFormData = new FormData();           
+        myFormData.append('valA', valA.value);
+        myFormData.append('valB', valB.value);
+
+        fetch('php/forma1.php', {
+            method: "POST", 
+            body: myFormData
+        })
+        .then(response=>response.json())
+        .then(data=>{
+            //con esto aparecera todo el json en la consola
+            console.log(data);
+            //esto llenara el los valores de los div
+            suma.textContent = "Suma: " + data.lasuma;
+            resta.textContent = "Resta: " + data.laresta;
+            multiplicacion.textContent = "Multiplicación: " + data.lamultiplicacion;
+            division.textContent = "División: " + data.ladivision;
+        });
+    };
+</script>
+    
+</body>
+</html>
